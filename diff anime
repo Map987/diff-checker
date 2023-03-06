@@ -1,0 +1,69 @@
+
+
+import cv2
+
+import numpy as np
+
+# Read two videos
+
+video1 = cv2.VideoCapture('video1.mp4')
+
+video2 = cv2.VideoCapture('video2.mp4')
+
+# Initialize frame counter
+
+frame_count = 0
+
+# Loop through video frames
+
+while True:
+
+    # Read frames from both videos
+
+    ret1, frame1 = video1.read()
+
+    ret2, frame2 = video2.read()
+
+    # If either video frame reading fails, exit loop
+
+    if not ret1 or not ret2:
+
+        break
+
+    # Convert both frames to grayscale
+
+    gray_frame1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
+
+    gray_frame2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
+
+    # Calculate SSIM between the two frames
+
+    (score, diff) = ssim(gray_frame1, gray_frame2, full=True)
+
+    # Define SSIM threshold
+
+    threshold = 0.99
+
+    # If SSIM score is below threshold, the frames are not identical
+
+    if score < threshold:
+
+        # Show the different frames
+
+        cv2.imshow('Different Frame', frame1)
+
+        cv2.waitKey(0)
+
+    # Update frame counter
+
+    frame_count += 1
+
+# Release video objects
+
+video1.release()
+
+video2.release()
+
+# Destroy all windows
+
+cv2.destroyAllWindows()的
